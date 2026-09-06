@@ -3,139 +3,156 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>EarnView - Watch & Earn</title>
 
 <style>
-
-*{
-  box-sizing:border-box;
-}
+*{box-sizing:border-box}
 
 body{
-  margin:0;
-  font-family:Arial,sans-serif;
-  background:#f1f5f9;
-  color:#111827;
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:#f3f6fa;
+ color:#172033;
 }
 
 header{
-  background:#111827;
-  color:white;
-  text-align:center;
-  padding:22px 15px;
+ background:#111827;
+ color:white;
+ padding:18px;
+ text-align:center;
 }
 
-header h1{
-  margin:0;
-  font-size:30px;
-}
-
-header p{
-  margin:7px 0 0;
-  color:#d1d5db;
-}
+header h1{margin:0;font-size:28px}
+header p{margin:6px 0 0;color:#cbd5e1}
 
 .container{
-  max-width:900px;
-  margin:auto;
-  padding:20px 15px;
+ max-width:950px;
+ margin:auto;
+ padding:15px;
 }
 
 .card{
-  background:white;
-  padding:20px;
-  margin-bottom:18px;
-  border-radius:14px;
-  box-shadow:0 4px 15px rgba(0,0,0,.08);
+ background:white;
+ border-radius:15px;
+ padding:20px;
+ margin-bottom:15px;
+ box-shadow:0 3px 12px #0001;
 }
 
 input{
-  width:100%;
-  padding:13px;
-  margin:7px 0;
-  border:1px solid #d1d5db;
-  border-radius:8px;
-  font-size:16px;
+ width:100%;
+ padding:13px;
+ margin:6px 0;
+ border:1px solid #d1d5db;
+ border-radius:8px;
+ font-size:15px;
 }
 
 button{
-  border:none;
-  background:#2563eb;
-  color:white;
-  padding:12px 18px;
-  border-radius:8px;
-  font-size:15px;
-  cursor:pointer;
+ border:0;
+ background:#2563eb;
+ color:white;
+ padding:11px 16px;
+ border-radius:8px;
+ cursor:pointer;
+ margin:3px;
 }
 
-button:hover{
-  background:#1d4ed8;
-}
-
-button:disabled{
-  background:#9ca3af;
-}
-
-.balance{
-  font-size:32px;
-  font-weight:bold;
-  color:#16a34a;
-}
+button:hover{background:#1d4ed8}
 
 .nav{
-  display:flex;
-  flex-wrap:wrap;
-  gap:8px;
-  margin-bottom:18px;
+ display:grid;
+ grid-template-columns:repeat(3,1fr);
+ gap:8px;
+ margin-bottom:15px;
+}
+
+.nav button{
+ margin:0;
+ min-height:48px;
+}
+
+.hidden{display:none}
+
+.balance{
+ font-size:32px;
+ font-weight:bold;
+ color:#16a34a;
+}
+
+.stats{
+ display:grid;
+ grid-template-columns:repeat(2,1fr);
+ gap:10px;
+}
+
+.stat{
+ background:#f8fafc;
+ padding:15px;
+ border-radius:10px;
+}
+
+.stat b{
+ display:block;
+ font-size:22px;
+ margin-top:5px;
 }
 
 .ad{
-  border:2px dashed #d1d5db;
-  border-radius:12px;
-  padding:25px;
-  text-align:center;
+ border:2px dashed #cbd5e1;
+ padding:25px;
+ border-radius:12px;
+ text-align:center;
 }
 
-.ad h3{
-  margin-top:0;
-}
-
-.hidden{
-  display:none;
+.option{
+ display:flex;
+ justify-content:space-between;
+ align-items:center;
+ padding:15px 5px;
+ border-bottom:1px solid #e5e7eb;
 }
 
 .small{
-  color:#6b7280;
-  font-size:14px;
+ color:#64748b;
+ font-size:14px;
 }
 
-.success{
-  color:#16a34a;
-  font-weight:bold;
+.success{color:#16a34a;font-weight:bold}
+.error{color:#dc2626;font-weight:bold}
+
+table{
+ width:100%;
+ border-collapse:collapse;
 }
 
-.error{
-  color:#dc2626;
-  font-weight:bold;
+td,th{
+ padding:10px;
+ border-bottom:1px solid #e5e7eb;
+ text-align:left;
 }
 
+footer{
+ text-align:center;
+ color:#64748b;
+ padding:25px;
+}
+
+@media(max-width:600px){
+ .nav{grid-template-columns:repeat(2,1fr)}
+ .stats{grid-template-columns:1fr 1fr}
+}
 </style>
 </head>
 
 <body>
 
 <header>
-
 <h1>💰 EarnView</h1>
-
-<p>Watch Ads & Earn Points</p>
-
+<p>Watch • Complete Tasks • Earn Points</p>
 </header>
 
-
 <div class="container">
-
 
 <!-- LOGIN -->
 
@@ -143,82 +160,80 @@ button:disabled{
 
 <h2>👤 Login / Register</h2>
 
-<input
-id="username"
-type="text"
-placeholder="আপনার Username লিখুন">
+<input id="username" placeholder="Username">
 
-<button onclick="login()">
-Login / Register
-</button>
+<button onclick="login()">Login / Register</button>
 
 <p class="small">
-Demo website — এই version-এ data আপনার browser-এ save হবে।
+Demo account system. আপনার data এই browser-এ save হবে।
 </p>
 
 </div>
-
 
 
 <!-- DASHBOARD -->
 
 <div id="dashboard" class="hidden">
 
-
 <div class="nav">
 
-<button onclick="showSection('home')">
-🏠 Home
-</button>
-
-<button onclick="showSection('ads')">
-📺 Watch Ads
-</button>
-
-<button onclick="showSection('withdraw')">
-💳 Withdraw
-</button>
-
-<button onclick="logout()">
-🚪 Logout
-</button>
+<button onclick="show('home')">🏠 Home</button>
+<button onclick="show('ads')">📺 Watch Ads</button>
+<button onclick="show('bonus')">🎁 Daily Bonus</button>
+<button onclick="show('tasks')">🎯 Tasks</button>
+<button onclick="show('referral')">👥 Refer</button>
+<button onclick="show('leaderboard')">🏆 Leaderboard</button>
+<button onclick="show('transactions')">📜 History</button>
+<button onclick="show('withdraw')">💳 Withdraw</button>
+<button onclick="show('profile')">👤 Profile</button>
+<button onclick="show('notifications')">🔔 Notice</button>
+<button onclick="show('faq')">❓ FAQ</button>
+<button onclick="show('support')">📞 Support</button>
+<button onclick="show('settings')">⚙️ Settings</button>
+<button onclick="logout()">🚪 Logout</button>
 
 </div>
-
 
 
 <!-- HOME -->
 
 <section id="home" class="card">
 
-<h2>
-Welcome, <span id="userName"></span> 👋
-</h2>
-
-<hr>
+<h2>Welcome, <span id="name"></span> 👋</h2>
 
 <p>Your Balance</p>
 
 <div class="balance">
-
 <span id="balance">0</span> Points
-
 </div>
 
 <br>
 
-<p>
-📺 Ads Watched:
-<b id="watched">0</b>
-</p>
+<div class="stats">
 
-<p>
-👥 Referral Code:
-<b id="refCode"></b>
-</p>
+<div class="stat">
+Ads Watched
+<b id="watched">0</b>
+</div>
+
+<div class="stat">
+Daily Bonus
+<b id="bonusStatus">Available</b>
+</div>
+
+<div class="stat">
+Referral
+<b id="refCount">0</b>
+</div>
+
+<div class="stat">
+Tasks Completed
+<b id="taskCount">0</b>
+</div>
+
+</div>
 
 </section>
-
 
 
 <!-- ADS -->
@@ -227,37 +242,156 @@ Welcome, <span id="userName"></span> 👋
 
 <h2>📺 Watch Ads</h2>
 
-<p>
-প্রতিটি demo advertisement সম্পূর্ণ দেখলে 10 Points পাবেন।
-</p>
+<p>Demo advertisement সম্পূর্ণ দেখলে 10 Points যোগ হবে।</p>
 
 <div class="ad">
 
-<h3>Advertisement</h3>
+<h3>Advertisement #1</h3>
 
-<p>
-🔵 Demo Advertisement
-</p>
+<p>Demo Advertisement</p>
 
-<p>
-Reward:
-<b>10 Points</b>
-</p>
+<p>Reward: <b>10 Points</b></p>
 
-<button
-id="adButton"
-onclick="watchAd()">
-
+<button id="adBtn" onclick="watchAd()">
 ▶ Watch Ad
-
 </button>
 
-<p id="timer"></p>
+<p id="adTimer"></p>
 
 </div>
 
 </section>
 
+
+<!-- BONUS -->
+
+<section id="bonus" class="card hidden">
+
+<h2>🎁 Daily Bonus</h2>
+
+<p>প্রতিদিন একবার bonus claim করতে পারবে।</p>
+
+<button id="bonusBtn" onclick="dailyBonus()">
+Claim 50 Points
+</button>
+
+<p id="bonusMsg"></p>
+
+</section>
+
+
+<!-- TASKS -->
+
+<section id="tasks" class="card hidden">
+
+<h2>🎯 Tasks / Offers</h2>
+
+<div class="option">
+<div>
+<b>Task #1</b>
+<div class="small">Demo task</div>
+</div>
+<button onclick="completeTask(1)">Complete +20</button>
+</div>
+
+<div class="option">
+<div>
+<b>Task #2</b>
+<div class="small">Demo task</div>
+</div>
+<button onclick="completeTask(2)">Complete +25</button>
+</div>
+
+<div class="option">
+<div>
+<b>Task #3</b>
+<div class="small">Demo task</div>
+</div>
+<button onclick="completeTask(3)">Complete +30</button>
+</div>
+
+<p id="taskMsg"></p>
+
+</section>
+
+
+<!-- REFERRAL -->
+
+<section id="referral" class="card hidden">
+
+<h2>👥 Refer & Earn</h2>
+
+<p>Your Referral Code:</p>
+
+<h3 id="refCode"></h3>
+
+<p class="small">
+বন্ধুকে এই code দিলে referral system-এ ব্যবহার করা যাবে।
+</p>
+
+<button onclick="copyReferral()">
+📋 Copy Code
+</button>
+
+<p id="copyMsg"></p>
+
+</section>
+
+
+<!-- LEADERBOARD -->
+
+<section id="leaderboard" class="card hidden">
+
+<h2>🏆 Leaderboard</h2>
+
+<table>
+
+<tr>
+<th>#</th>
+<th>User</th>
+<th>Points</th>
+</tr>
+
+<tr>
+<td>1</td>
+<td>TopUser</td>
+<td>12500</td>
+</tr>
+
+<tr>
+<td>2</td>
+<td>EarnKing</td>
+<td>9800</td>
+</tr>
+
+<tr>
+<td>3</td>
+<td>MoneyStar</td>
+<td>7500</td>
+</tr>
+
+<tr>
+<td>4</td>
+<td>You</td>
+<td id="leaderPoints">0</td>
+</tr>
+
+</table>
+
+</section>
+
+
+<!-- TRANSACTIONS -->
+
+<section id="transactions" class="card hidden">
+
+<h2>📜 Transaction History</h2>
+
+<div id="history">
+<p class="small">No transactions yet.</p>
+</div>
+
+</section>
 
 
 <!-- WITHDRAW -->
@@ -266,23 +400,16 @@ onclick="watchAd()">
 
 <h2>💳 Withdraw</h2>
 
-<p>
-Minimum withdrawal:
-<b>1000 Points</b>
-</p>
+<p>Minimum withdrawal: <b>1000 Points</b></p>
 
-<input
-id="bkash"
-type="text"
-placeholder="bKash Number">
+<input id="bkash" placeholder="bKash Number">
 
-<input
-id="amount"
+<input id="withdrawAmount"
 type="number"
 placeholder="Points amount">
 
 <button onclick="withdraw()">
-Submit Withdrawal
+Submit Request
 </button>
 
 <p id="withdrawMsg"></p>
@@ -290,40 +417,164 @@ Submit Withdrawal
 </section>
 
 
+<!-- PROFILE -->
+
+<section id="profile" class="card hidden">
+
+<h2>👤 My Profile</h2>
+
+<p>Username: <b id="profileName"></b></p>
+
+<p>Referral Code: <b id="profileRef"></b></p>
+
+<p>Total Ads: <b id="profileAds"></b></p>
+
+<p>Total Points: <b id="profilePoints"></b></p>
+
+</section>
+
+
+<!-- NOTIFICATIONS -->
+
+<section id="notifications" class="card hidden">
+
+<h2>🔔 Notifications</h2>
+
+<div class="option">
+<span>🎉 Welcome to EarnView</span>
 </div>
+
+<div class="option">
+<span>📺 Watch ads to collect demo points</span>
+</div>
+
+<div class="option">
+<span>🎁 Daily bonus available once per day</span>
+</div>
+
+</section>
+
+
+<!-- FAQ -->
+
+<section id="faq" class="card hidden">
+
+<h2>❓ FAQ</h2>
+
+<h3>Points কী?</h3>
+<p class="small">
+Points হলো এই demo website-এর internal reward unit।
+</p>
+
+<h3>কীভাবে Points পাব?</h3>
+<p class="small">
+Demo ads, daily bonus এবং demo tasks থেকে।
+</p>
+
+<h3>আমি কি এখন টাকা তুলতে পারব?</h3>
+<p class="small">
+না। এটি demo version। Real payout চালু করতে secure backend ও payment integration প্রয়োজন।
+</p>
+
+</section>
+
+
+<!-- SUPPORT -->
+
+<section id="support" class="card hidden">
+
+<h2>📞 Support</h2>
+
+<p>সমস্যা হলে নিচের form ব্যবহার করো।</p>
+
+<input id="supportText"
+placeholder="আপনার সমস্যা লিখুন">
+
+<button onclick="sendSupport()">
+Send Message
+</button>
+
+<p id="supportMsg"></p>
+
+</section>
+
+
+<!-- SETTINGS -->
+
+<section id="settings" class="card hidden">
+
+<h2>⚙️ Settings</h2>
+
+<div class="option">
+<span>🔔 Notifications</span>
+<button onclick="alert('Demo setting')">
+Change
+</button>
+</div>
+
+<div class="option">
+<span>🌐 Language</span>
+<button onclick="alert('Bangla / English')">
+Change
+</button>
+</div>
+
+<div class="option">
+<span>🗑️ Reset Demo Data</span>
+<button onclick="resetData()">
+Reset
+</button>
+</div>
+
+</section>
+
 
 </div>
 
+<footer>
+EarnView © 2026 — Demo Website
+</footer>
+
+</div>
 
 
 <script>
 
-
 let user =
-localStorage.getItem("earnUser");
-
+localStorage.getItem("evUser") || "";
 
 let balance =
-Number(
-localStorage.getItem("earnBalance") || 0
-);
-
+Number(localStorage.getItem("evBalance") || 0);
 
 let watched =
-Number(
-localStorage.getItem("earnWatched") || 0
-);
+Number(localStorage.getItem("evWatched") || 0);
 
+let referrals =
+Number(localStorage.getItem("evReferrals") || 0);
+
+let tasks =
+Number(localStorage.getItem("evTasks") || 0);
+
+let history =
+JSON.parse(localStorage.getItem("evHistory") || "[]");
+
+
+function save(){
+
+localStorage.setItem("evBalance",balance);
+localStorage.setItem("evWatched",watched);
+localStorage.setItem("evReferrals",referrals);
+localStorage.setItem("evTasks",tasks);
+localStorage.setItem("evHistory",
+JSON.stringify(history));
+
+}
 
 
 function login(){
 
 let name =
-document
-.getElementById("username")
-.value
-.trim();
-
+document.getElementById("username").value.trim();
 
 if(!name){
 
@@ -333,173 +584,145 @@ return;
 
 }
 
-
 user=name;
 
+localStorage.setItem("evUser",user);
 
-localStorage.setItem(
-"earnUser",
-user
-);
-
-
-loadDashboard();
+load();
 
 }
 
 
-
-function loadDashboard(){
+function load(){
 
 document
 .getElementById("loginBox")
-.classList
-.add("hidden");
-
+.classList.add("hidden");
 
 document
 .getElementById("dashboard")
-.classList
-.remove("hidden");
+.classList.remove("hidden");
 
+document.getElementById("name").innerText=user;
 
-document
-.getElementById("userName")
-.innerText=user;
+document.getElementById("profileName").innerText=user;
 
+let ref="EV-"+user.toUpperCase();
 
-document
-.getElementById("refCode")
-.innerText=
-"EV-" +
-user
-.toUpperCase();
+document.getElementById("refCode").innerText=ref;
 
+document.getElementById("profileRef").innerText=ref;
 
-updateBalance();
+update();
 
 }
 
 
+function update(){
 
-function updateBalance(){
+document.getElementById("balance").innerText=balance;
 
-document
-.getElementById("balance")
-.innerText=balance;
+document.getElementById("watched").innerText=watched;
 
+document.getElementById("refCount").innerText=referrals;
 
-document
-.getElementById("watched")
-.innerText=watched;
+document.getElementById("taskCount").innerText=tasks;
 
+document.getElementById("leaderPoints").innerText=balance;
 
-localStorage.setItem(
-"earnBalance",
-balance
-);
+document.getElementById("profileAds").innerText=watched;
 
+document.getElementById("profilePoints").innerText=balance;
 
-localStorage.setItem(
-"earnWatched",
-watched
-);
+save();
+
+renderHistory();
 
 }
 
 
+function show(id){
 
-function showSection(section){
+let sections=[
+"home",
+"ads",
+"bonus",
+"tasks",
+"referral",
+"leaderboard",
+"transactions",
+"withdraw",
+"profile",
+"notifications",
+"faq",
+"support",
+"settings"
+];
+
+sections.forEach(function(x){
 
 document
-.getElementById("home")
-.classList
-.add("hidden");
+.getElementById(x)
+.classList.add("hidden");
 
-
-document
-.getElementById("ads")
-.classList
-.add("hidden");
-
+});
 
 document
-.getElementById("withdraw")
-.classList
-.add("hidden");
-
-
-document
-.getElementById(section)
-.classList
-.remove("hidden");
+.getElementById(id)
+.classList.remove("hidden");
 
 }
 
+
+function addHistory(text,points){
+
+history.unshift({
+
+text:text,
+points:points,
+time:new Date().toLocaleString()
+
+});
+
+}
 
 
 function watchAd(){
 
-let button =
-document
-.getElementById("adButton");
+let btn=document.getElementById("adBtn");
 
+let timer=document.getElementById("adTimer");
 
-let timer =
-document
-.getElementById("timer");
+btn.disabled=true;
 
-
-button.disabled=true;
-
-
-let seconds=10;
-
+let sec=10;
 
 timer.innerText=
-"⏳ Please wait " +
-seconds +
-" seconds...";
+"⏳ Please wait "+sec+" seconds...";
 
+let interval=setInterval(function(){
 
-let interval =
-setInterval(function(){
-
-
-seconds--;
-
+sec--;
 
 timer.innerText=
-"⏳ Please wait " +
-seconds +
-" seconds...";
+"⏳ Please wait "+sec+" seconds...";
 
-
-if(seconds<=0){
-
+if(sec<=0){
 
 clearInterval(interval);
 
+balance+=10;
 
-balance += 10;
+watched++;
 
+addHistory("Watched Advertisement",10);
 
-watched += 1;
-
-
-updateBalance();
-
+update();
 
 timer.innerText=
-"✅ You earned 10 Points!";
+"✅ 10 Points added!";
 
-
-button.disabled=false;
-
-
-button.innerText=
-"▶ Watch Again";
-
+btn.disabled=false;
 
 }
 
@@ -508,103 +731,233 @@ button.innerText=
 }
 
 
+function dailyBonus(){
+
+let today=
+new Date().toDateString();
+
+let claimed=
+localStorage.getItem("evBonusDate");
+
+if(claimed===today){
+
+document.getElementById("bonusMsg").innerText=
+"❌ আজকের bonus already claimed.";
+
+return;
+
+}
+
+balance+=50;
+
+localStorage.setItem(
+"evBonusDate",
+today
+);
+
+addHistory("Daily Bonus",50);
+
+document.getElementById("bonusMsg").innerText=
+"✅ 50 Points added!";
+
+update();
+
+}
+
+
+function completeTask(id){
+
+let key="evTask"+id;
+
+if(localStorage.getItem(key)){
+
+document.getElementById("taskMsg").innerText=
+"❌ এই task already completed.";
+
+return;
+
+}
+
+let reward=id===1?20:id===2?25:30;
+
+localStorage.setItem(key,"yes");
+
+balance+=reward;
+
+tasks++;
+
+addHistory("Completed Task #"+id,reward);
+
+document.getElementById("taskMsg").innerText=
+"✅ +"+reward+" Points added!";
+
+update();
+
+}
+
+
+function copyReferral(){
+
+let code=
+document.getElementById("refCode").innerText;
+
+navigator.clipboard.writeText(code);
+
+document.getElementById("copyMsg").innerText=
+"✅ Referral code copied!";
+
+}
+
 
 function withdraw(){
 
-let number =
-document
-.getElementById("bkash")
-.value
-.trim();
+let number=
+document.getElementById("bkash").value.trim();
 
-
-let amount =
+let amount=
 Number(
-document
-.getElementById("amount")
-.value
+document.getElementById("withdrawAmount").value
 );
 
-
-let msg =
-document
-.getElementById("withdrawMsg");
-
-
-msg.className="";
-
+let msg=
+document.getElementById("withdrawMsg");
 
 if(!number){
 
-msg.innerText=
-"❌ bKash number দিন";
-
 msg.className="error";
+
+msg.innerText=
+"❌ bKash number দিন.";
 
 return;
 
 }
 
-
-if(amount < 1000){
-
-msg.innerText=
-"❌ Minimum withdrawal 1000 Points";
+if(amount<1000){
 
 msg.className="error";
+
+msg.innerText=
+"❌ Minimum 1000 Points.";
 
 return;
 
 }
 
-
-if(amount > balance){
-
-msg.innerText=
-"❌ আপনার পর্যাপ্ত Points নেই";
+if(amount>balance){
 
 msg.className="error";
+
+msg.innerText=
+"❌ পর্যাপ্ত Points নেই.";
 
 return;
 
 }
 
+balance-=amount;
 
-balance -= amount;
-
-
-updateBalance();
-
-
-msg.innerText=
-"✅ Withdrawal request submitted (Demo)";
-
+addHistory(
+"Withdrawal Request: "+number,
+-amount
+);
 
 msg.className="success";
 
+msg.innerText=
+"✅ Demo withdrawal request submitted.";
+
+update();
+
 }
 
 
+function renderHistory(){
 
-function logout(){
+let box=
+document.getElementById("history");
 
-localStorage.removeItem(
-"earnUser"
-);
+if(history.length===0){
+
+box.innerHTML=
+'<p class="small">No transactions yet.</p>';
+
+return;
+
+}
+
+box.innerHTML="";
+
+history.slice(0,20).forEach(function(item){
+
+let p=document.createElement("p");
+
+p.innerHTML=
+"• "+item.text+
+" — <b>"+item.points+" Points</b>"+
+"<br><span class='small'>"+
+item.time+
+"</span>";
+
+box.appendChild(p);
+
+});
+
+}
+
+
+function sendSupport(){
+
+let text=
+document.getElementById("supportText").value.trim();
+
+let msg=
+document.getElementById("supportMsg");
+
+if(!text){
+
+msg.innerText=
+"❌ আপনার সমস্যা লিখুন.";
+
+return;
+
+}
+
+msg.innerText=
+"✅ Demo support message submitted.";
+
+document.getElementById("supportText").value="";
+
+}
+
+
+function resetData(){
+
+if(!confirm("সব demo data মুছে ফেলবেন?")) return;
+
+localStorage.clear();
 
 location.reload();
 
 }
 
 
+function logout(){
+
+localStorage.removeItem("evUser");
+
+location.reload();
+
+}
+
 
 if(user){
 
-loadDashboard();
+load();
 
 }
 
 </script>
 
 </body>
-</html>
+  </html>eibo:bolr
