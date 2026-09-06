@@ -1,0 +1,610 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>EarnView - Watch & Earn</title>
+
+<style>
+
+*{
+  box-sizing:border-box;
+}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#f1f5f9;
+  color:#111827;
+}
+
+header{
+  background:#111827;
+  color:white;
+  text-align:center;
+  padding:22px 15px;
+}
+
+header h1{
+  margin:0;
+  font-size:30px;
+}
+
+header p{
+  margin:7px 0 0;
+  color:#d1d5db;
+}
+
+.container{
+  max-width:900px;
+  margin:auto;
+  padding:20px 15px;
+}
+
+.card{
+  background:white;
+  padding:20px;
+  margin-bottom:18px;
+  border-radius:14px;
+  box-shadow:0 4px 15px rgba(0,0,0,.08);
+}
+
+input{
+  width:100%;
+  padding:13px;
+  margin:7px 0;
+  border:1px solid #d1d5db;
+  border-radius:8px;
+  font-size:16px;
+}
+
+button{
+  border:none;
+  background:#2563eb;
+  color:white;
+  padding:12px 18px;
+  border-radius:8px;
+  font-size:15px;
+  cursor:pointer;
+}
+
+button:hover{
+  background:#1d4ed8;
+}
+
+button:disabled{
+  background:#9ca3af;
+}
+
+.balance{
+  font-size:32px;
+  font-weight:bold;
+  color:#16a34a;
+}
+
+.nav{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin-bottom:18px;
+}
+
+.ad{
+  border:2px dashed #d1d5db;
+  border-radius:12px;
+  padding:25px;
+  text-align:center;
+}
+
+.ad h3{
+  margin-top:0;
+}
+
+.hidden{
+  display:none;
+}
+
+.small{
+  color:#6b7280;
+  font-size:14px;
+}
+
+.success{
+  color:#16a34a;
+  font-weight:bold;
+}
+
+.error{
+  color:#dc2626;
+  font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+
+<h1>💰 EarnView</h1>
+
+<p>Watch Ads & Earn Points</p>
+
+</header>
+
+
+<div class="container">
+
+
+<!-- LOGIN -->
+
+<div id="loginBox" class="card">
+
+<h2>👤 Login / Register</h2>
+
+<input
+id="username"
+type="text"
+placeholder="আপনার Username লিখুন">
+
+<button onclick="login()">
+Login / Register
+</button>
+
+<p class="small">
+Demo website — এই version-এ data আপনার browser-এ save হবে।
+</p>
+
+</div>
+
+
+
+<!-- DASHBOARD -->
+
+<div id="dashboard" class="hidden">
+
+
+<div class="nav">
+
+<button onclick="showSection('home')">
+🏠 Home
+</button>
+
+<button onclick="showSection('ads')">
+📺 Watch Ads
+</button>
+
+<button onclick="showSection('withdraw')">
+💳 Withdraw
+</button>
+
+<button onclick="logout()">
+🚪 Logout
+</button>
+
+</div>
+
+
+
+<!-- HOME -->
+
+<section id="home" class="card">
+
+<h2>
+Welcome, <span id="userName"></span> 👋
+</h2>
+
+<hr>
+
+<p>Your Balance</p>
+
+<div class="balance">
+
+<span id="balance">0</span> Points
+
+</div>
+
+<br>
+
+<p>
+📺 Ads Watched:
+<b id="watched">0</b>
+</p>
+
+<p>
+👥 Referral Code:
+<b id="refCode"></b>
+</p>
+
+</section>
+
+
+
+<!-- ADS -->
+
+<section id="ads" class="card hidden">
+
+<h2>📺 Watch Ads</h2>
+
+<p>
+প্রতিটি demo advertisement সম্পূর্ণ দেখলে 10 Points পাবেন।
+</p>
+
+<div class="ad">
+
+<h3>Advertisement</h3>
+
+<p>
+🔵 Demo Advertisement
+</p>
+
+<p>
+Reward:
+<b>10 Points</b>
+</p>
+
+<button
+id="adButton"
+onclick="watchAd()">
+
+▶ Watch Ad
+
+</button>
+
+<p id="timer"></p>
+
+</div>
+
+</section>
+
+
+
+<!-- WITHDRAW -->
+
+<section id="withdraw" class="card hidden">
+
+<h2>💳 Withdraw</h2>
+
+<p>
+Minimum withdrawal:
+<b>1000 Points</b>
+</p>
+
+<input
+id="bkash"
+type="text"
+placeholder="bKash Number">
+
+<input
+id="amount"
+type="number"
+placeholder="Points amount">
+
+<button onclick="withdraw()">
+Submit Withdrawal
+</button>
+
+<p id="withdrawMsg"></p>
+
+</section>
+
+
+</div>
+
+</div>
+
+
+
+<script>
+
+
+let user =
+localStorage.getItem("earnUser");
+
+
+let balance =
+Number(
+localStorage.getItem("earnBalance") || 0
+);
+
+
+let watched =
+Number(
+localStorage.getItem("earnWatched") || 0
+);
+
+
+
+function login(){
+
+let name =
+document
+.getElementById("username")
+.value
+.trim();
+
+
+if(!name){
+
+alert("Username লিখুন");
+
+return;
+
+}
+
+
+user=name;
+
+
+localStorage.setItem(
+"earnUser",
+user
+);
+
+
+loadDashboard();
+
+}
+
+
+
+function loadDashboard(){
+
+document
+.getElementById("loginBox")
+.classList
+.add("hidden");
+
+
+document
+.getElementById("dashboard")
+.classList
+.remove("hidden");
+
+
+document
+.getElementById("userName")
+.innerText=user;
+
+
+document
+.getElementById("refCode")
+.innerText=
+"EV-" +
+user
+.toUpperCase();
+
+
+updateBalance();
+
+}
+
+
+
+function updateBalance(){
+
+document
+.getElementById("balance")
+.innerText=balance;
+
+
+document
+.getElementById("watched")
+.innerText=watched;
+
+
+localStorage.setItem(
+"earnBalance",
+balance
+);
+
+
+localStorage.setItem(
+"earnWatched",
+watched
+);
+
+}
+
+
+
+function showSection(section){
+
+document
+.getElementById("home")
+.classList
+.add("hidden");
+
+
+document
+.getElementById("ads")
+.classList
+.add("hidden");
+
+
+document
+.getElementById("withdraw")
+.classList
+.add("hidden");
+
+
+document
+.getElementById(section)
+.classList
+.remove("hidden");
+
+}
+
+
+
+function watchAd(){
+
+let button =
+document
+.getElementById("adButton");
+
+
+let timer =
+document
+.getElementById("timer");
+
+
+button.disabled=true;
+
+
+let seconds=10;
+
+
+timer.innerText=
+"⏳ Please wait " +
+seconds +
+" seconds...";
+
+
+let interval =
+setInterval(function(){
+
+
+seconds--;
+
+
+timer.innerText=
+"⏳ Please wait " +
+seconds +
+" seconds...";
+
+
+if(seconds<=0){
+
+
+clearInterval(interval);
+
+
+balance += 10;
+
+
+watched += 1;
+
+
+updateBalance();
+
+
+timer.innerText=
+"✅ You earned 10 Points!";
+
+
+button.disabled=false;
+
+
+button.innerText=
+"▶ Watch Again";
+
+
+}
+
+},1000);
+
+}
+
+
+
+function withdraw(){
+
+let number =
+document
+.getElementById("bkash")
+.value
+.trim();
+
+
+let amount =
+Number(
+document
+.getElementById("amount")
+.value
+);
+
+
+let msg =
+document
+.getElementById("withdrawMsg");
+
+
+msg.className="";
+
+
+if(!number){
+
+msg.innerText=
+"❌ bKash number দিন";
+
+msg.className="error";
+
+return;
+
+}
+
+
+if(amount < 1000){
+
+msg.innerText=
+"❌ Minimum withdrawal 1000 Points";
+
+msg.className="error";
+
+return;
+
+}
+
+
+if(amount > balance){
+
+msg.innerText=
+"❌ আপনার পর্যাপ্ত Points নেই";
+
+msg.className="error";
+
+return;
+
+}
+
+
+balance -= amount;
+
+
+updateBalance();
+
+
+msg.innerText=
+"✅ Withdrawal request submitted (Demo)";
+
+
+msg.className="success";
+
+}
+
+
+
+function logout(){
+
+localStorage.removeItem(
+"earnUser"
+);
+
+location.reload();
+
+}
+
+
+
+if(user){
+
+loadDashboard();
+
+}
+
+</script>
+
+</body>
+</html>
